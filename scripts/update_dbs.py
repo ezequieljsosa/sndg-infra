@@ -6,6 +6,7 @@ Created on Nov 1, 2017
 import os
 import logging
 import json
+import shutil
 from _collections import defaultdict
 
 from SNDGInfra.GOupdater import GOupdater
@@ -15,20 +16,23 @@ from SNDGInfra.PFAMupdater import PFAMupdater
 from SNDGInfra.NCBIupdater import NCBIupdater
 from SNDGInfra.UNIPROTupdater import UNIPROTupdater
 from SNDGInfra import init_log
-import shutil
 
-init_log("/data/databases/")
+
+
 
 _log = logging.getLogger()
 
 if __name__ == '__main__':    
     
     datadir = "/data/databases/"
+    init_log(datadir + "data.log")
     configpath = datadir + "config.json"
+    
     with open(configpath) as h:
         config = defaultdict(lambda : None, json.load(h))
     
-    for updater in [GOupdater(), SOupdater(), PDBupdater(), PFAMupdater(),  UNIPROTupdater(),  NCBIupdater()]:
+    for updater in [ GOupdater(), SOupdater(), PDBupdater(), 
+                    PFAMupdater(),  UNIPROTupdater(),  NCBIupdater()]:
         try:
             updater.download(config, datadir )
         except Exception as ex:

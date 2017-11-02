@@ -32,7 +32,9 @@ class PDBupdater(object):
                              names=["IDCODE", "HEADER", "ACCESSION DATE", "COMPOUND", 
                                     "SOURCE", "AUTHOR LIST", "RESOLUTION", "EXPERIMENT TYPE"])
         for pdb in pdbs.IDCODE:
-            groupdir = pdbdir + "divided/" + pdb[1:3].lower() 
+            groupdir = pdbdir + "divided/" + pdb[1:3].lower()
+            if not os.path.exists(groupdir):
+                os.makedirs(groupdir) 
             if not os.path.exists(groupdir+  "/pdb" + pdb.lower() + ".ent" ):
                 os.chdir(groupdir)
                 dl( pdbftp + "/divided/pdb/" + pdb[1:3].lower()  + "/pdb" + pdb.lower() + ".ent.gz")

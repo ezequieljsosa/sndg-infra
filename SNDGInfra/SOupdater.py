@@ -24,11 +24,11 @@ class SOupdater(object):
         if not os.path.exists(sodir):
             os.makedirs(sodir)
         r = requests.get('https://raw.githubusercontent.com/The-Sequence-Ontology/SO-Ontologies/master/releases/so-xp.owl/so-xp.obo')
-        lastchange = datetime.datetime(*eut.parsedate(r.headers['last-modified'])[:6])
+        length = int(r.headers['Content-Length'])
         r.close()
         
-        if (not config["so"]) or (lastchange > datetime.datetime.strptime(config["go"], '%Y%m')):
+        if (not config["so"]) or (length != config["so"]) :
             os.chdir(sodir)
             dl("https://raw.githubusercontent.com/The-Sequence-Ontology/SO-Ontologies/master/releases/so-xp.owl/so-xp.obo")
-            config["so"] = lastchange.strftime("%Y%m")
+            config["so"] = length
         
