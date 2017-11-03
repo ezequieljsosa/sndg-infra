@@ -7,7 +7,7 @@ import os
 import pandas as pd
 import shutil
 
-from SNDGInfra import dl
+from SNDGInfra import dl, execute
 
 #from urllib.request import ProxyHandler,build_opener,install_opener
 # proxy_support = ProxyHandler({"http":"http://proxy.fcen.uba.ar:8080/",
@@ -23,6 +23,12 @@ class PDBupdater(object):
 
     def download(self,config,datadir):
         pdbdir = datadir + "pdb/"
+        
+        if not os.path.exists(pdbdir + "obsoletes/"):
+            os.makedirs(pdbdir + "obsoletes/")
+        if not os.path.exists(pdbdir + "divided/"):
+            os.makedirs(pdbdir + "divided/")
+        
         pdbftp = "ftp://ftp.wwpdb.org/pub/pdb/data/structures"
         
         os.chdir(pdbdir)
@@ -38,8 +44,12 @@ class PDBupdater(object):
             if not os.path.exists(groupdir+  "/pdb" + pdb.lower() + ".ent" ):
                 os.chdir(groupdir)
                 dl( pdbftp + "/divided/pdb/" + pdb[1:3].lower()  + "/pdb" + pdb.lower() + ".ent.gz")
+                execute("gunzip pdb" + pdb.lower() + ".ent.gz")
+        
+        os.chdir(pdbdir)
+        
         dl("ftp://ftp.wwpdb.org/pub/pdb/data/status/obsolete.dat")
-        obsolete = pd.read_table("entries.idx",skiprows=1,
+        obsolete = pd.read_table("obsolete.dat",skiprows=1,
                              names=["OBSLTE", "DATE", "OBS", "SUCCESSOR"])
         for pdb in obsolete.OBS:
             groupdir = pdbdir + "divided/" + pdb[1:3].lower() 

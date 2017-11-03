@@ -28,11 +28,15 @@ class NCBIupdater(object):
         
         md5file = open("nt.gz.md5").read()        
         if md5("nt.gz") == md5file:
-            execute("tar xfv nt.gz")
+            execute("gunzip nt.gz")
         
         
         dl("ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/nucl_gb.accession2taxid.gz")
         dl("ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/accession2taxid/nucl_gb.accession2taxid.gz.md5")
+        
+        md5file = open("nucl_gb.accession2taxid.gz.md5").read()        
+        if md5("nucl_gb.accession2taxid.gz") == md5file:
+            execute("gunzip nucl_gb.accession2taxid.gz")
         
         
         
