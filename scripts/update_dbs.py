@@ -31,8 +31,11 @@ if __name__ == '__main__':
     with open(configpath) as h:
         config = defaultdict(lambda : None, json.load(h))
     
-    for updater in [ NCBIupdater(),GOupdater(), SOupdater(), PDBupdater(), 
-                    PFAMupdater(),  UNIPROTupdater()]:
+    for updater in [ NCBIupdater(), 
+                    PDBupdater(), 
+                    UNIPROTupdater(),
+                    PFAMupdater(),GOupdater(), SOupdater()
+                    ]:
         try:
             updater.download(config, datadir )
         except Exception as ex:

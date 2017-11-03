@@ -27,6 +27,13 @@ def md5(fname):
             hash_md5.update(chunk)
     return hash_md5.hexdigest()
 
+def md5_equal(fname,known_md5):
+    match = md5(fname) == known_md5
+    if not match:
+        _log.error("error in %s checksum" % fname)
+    return match
+    
+
 def execute(template,**parameters):
     cmd = template.format(template,**parameters)
     _log.debug(cmd)
