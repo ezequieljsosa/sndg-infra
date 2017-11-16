@@ -40,8 +40,10 @@ def execute(template,**parameters):
     sp.call(cmd,shell=True)
     _log.debug(cmd  + " --> Executed correctly")
 
-def dl(url):    
-    execute("wget  " + url + " -O " + url.split("/")[-1])
+def dl(url,dst=None):
+    if not dst:
+        dst = url.split("/")[-1]
+    execute("wget  " + url + " -O " + dst)
     
     
     

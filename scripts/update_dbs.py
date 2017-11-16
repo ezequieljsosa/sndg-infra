@@ -16,6 +16,7 @@ from SNDGInfra.PFAMupdater import PFAMupdater
 from SNDGInfra.NCBIupdater import NCBIupdater
 from SNDGInfra.UNIPROTupdater import UNIPROTupdater
 from SNDGInfra import init_log
+from SNDGInfra.SNDGDB import SNDGDB
 
 
 
@@ -34,7 +35,8 @@ if __name__ == '__main__':
     for updater in [ NCBIupdater(), 
                     PDBupdater(), 
                     UNIPROTupdater(),
-                    PFAMupdater(),GOupdater(), SOupdater()
+                    PFAMupdater(),GOupdater(), SOupdater(),
+                    SNDGDB("saureus")
                     ]:
         try:
             updater.download(config, datadir )
